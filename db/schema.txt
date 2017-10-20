@@ -1,0 +1,9 @@
+CREATE TABLE `articles` (
+ `id` int(20) NOT NULL AUTO_INCREMENT,
+ `cluster_id` int(20) NOT NULL,
+ `article_title` text NOT NULL,
+ `url` text NOT NULL,
+ `rank` int(20) NOT NULL,
+ `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
