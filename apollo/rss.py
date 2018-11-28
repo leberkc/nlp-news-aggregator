@@ -68,10 +68,10 @@ class FeedFetcher:
 
 				foundUnique = False			#  Find out whether we have this article already by looking up
 											#  both the url and the content message digests.
-				if doc['url_hash'] is not None and doc['content_hash'] is not None:
+				if doc['hash_url'] is not None and doc['hash_content'] is not None:
 					query  = 'SELECT * FROM articles'
-					query += ' WHERE hash_url = ' + str(doc['url_hash'])
-					query += ' AND hash_content = ' + str(doc['content_hash']) + ';'
+					query += ' WHERE hash_url = ' + str(doc['hash_url'])
+					query += ' AND hash_content = ' + str(doc['hash_content']) + ';'
 					cursor.execute(query)
 					result = cursor.fetchall()
 					if len(result) == 0:
@@ -103,13 +103,13 @@ class FeedFetcher:
 						query += 'url, '
 						vals += '"' + doc['url'] + '", '
 					#  HASH_URL is an unsigned long int
-					if doc['url_hash'] is not None:
+					if doc['hash_url'] is not None:
 						query += 'hash_url, '
-						vals += str(doc['url_hash']) + ', '
+						vals += str(doc['hash_url']) + ', '
 					#  HASH_CONTENT is an unsigned long int
-					if doc['content_hash'] is not None:
+					if doc['hash_content'] is not None:
 						query += 'hash_content, '
-						vals += str(doc['content_hash']) + ', '
+						vals += str(doc['hash_content']) + ', '
 					#  TITLE is UNICODE
 					if doc['title'] is not None:
 						query += 'title, '
@@ -207,16 +207,16 @@ class FeedFetcher:
 	#  publication date, URL, title, language, etc.
 	#
 	#  This function returns a list of dictionaries, one for each article:
-	#  [ { 'url', 'url_hash', 'title', 'text', 'content_hash', 'summary', 'keyword', lang-claimed', 'lang-detected', 'lang-confidence', 'pub-date', 'date-retrieved' },
-	#    { 'url', 'url_hash', 'title', 'text', 'content_hash', 'summary', 'keyword', lang-claimed', 'lang-detected', 'lang-confidence', 'pub-date', 'date-retrieved' },
+	#  [ { 'url', 'hash_url', 'title', 'text', 'hash_content', 'summary', 'keyword', lang-claimed', 'lang-detected', 'lang-confidence', 'pub-date', 'date-retrieved' },
+	#    { 'url', 'hash_url', 'title', 'text', 'hash_content', 'summary', 'keyword', lang-claimed', 'lang-detected', 'lang-confidence', 'pub-date', 'date-retrieved' },
 	#      ...
 	#  ]
 	#  url:            The URL of this article
-	#  url_hash:       Message digest of URL
+	#  hash_url:       Message digest of URL
 	#  title:          The title of the article
 	#  text:           The text of the article, as a single string of natural language
 	#                  (Beautiful Soup removes the markup)
-	#  content_hash:   Message digest of article
+	#  hash_content:   Message digest of article
 	#  summary:        A summary of the article
 	#  keyword:        If provided
 	#  lang-claimed:   The language in which the article says it is written, if this was included
